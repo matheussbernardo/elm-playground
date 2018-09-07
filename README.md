@@ -1,2 +1,2 @@
 # elm-playground
-Playing with Elm
+Playing with Elm and learning functional programming

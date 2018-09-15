@@ -32,10 +32,10 @@ obter dois valores de r iguais.
 8 ***DONE***) Crie um programa que pergunte um número inteiro n e
 mostre o n-ésimo número de Fibonacci
 
-9) Crie um programa que pergunte um número inteiro n e
+9 ***DONE***) Crie um programa que pergunte um número inteiro n e
 mostre a sequência dos n primeiros números de Fibonacci
 
-10) Crie um programa que pergunte um número inteiro n e
+10 ***DONE***) Crie um programa que pergunte um número inteiro n e
 mostre o n-ésimo número de Fibonacci. Sua implementação
 deve funcionar para valores de n grandes (n > 50).
 

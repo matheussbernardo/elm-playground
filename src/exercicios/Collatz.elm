@@ -1,4 +1,4 @@
-module HelloName exposing (main)
+module Collatz exposing (main)
 
 {-| Pergunta um número e diz várias coisas
 sobre o número

@@ -1,4 +1,4 @@
-module App exposing (init, main, update, view)
+module DebugConsole exposing (init, main, update, view)
 
 import Browser
 import Debug exposing (..)

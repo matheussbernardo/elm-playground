@@ -1,4 +1,4 @@
-module App exposing (init, main, update, view)
+module SquareRoot exposing (init, main, update, view)
 
 import Browser
 import Html exposing (..)

@@ -20,12 +20,12 @@ main =
 
 
 type alias Model =
-    { input : String, out1 : String, out2 : String }
+    { input : String, out : String }
 
 
 init : Model
 init =
-    { input = "", out1 = "", out2 ="" }
+    { input = "", out = "" }
 
 
 
@@ -33,24 +33,44 @@ init =
 
 
 type Msg
-    = Calculate (List Int)
+    = Send (Maybe Float)
     | Replace String
 
 
 update : Msg -> Model -> Model
 update msg m =
-    let 
-        sumAndSquare n acc=
-            (n ^ 2) + acc
-    in
-
     case msg of
-        Calculate list ->
-            { m | out1 = List.foldl (+) 0 list |> String.fromInt, 
-                  out2 = List.foldl sumAndSquare 0 list |> String.fromInt }
+        Send number ->
+            { m | out = inputExp number }
 
         Replace st ->
             { m | input = st }
+
+
+inputExp : Maybe Float -> String
+inputExp n =
+    Maybe.withDefault 0 n
+        |> exp
+        |> String.fromFloat
+
+
+exp : Float -> Float
+exp number =
+    let
+        term : Int -> Float
+        term n =
+            number ^ toFloat n / toFloat (fat n)
+    in
+    List.sum <| List.map term (List.range 0 30)
+
+
+fat : Int -> Int
+fat n =
+    if n <= 1 then
+        1
+
+    else
+        n * fat (n - 1)
 
 
 
@@ -60,24 +80,12 @@ update msg m =
 view : Model -> Html Msg
 view m =
     div []
-        [ h1 [] [ text m.out1 ]
-        , h1 [] [ text m.out2 ]
+        [ h1 [] [ text m.out ]
         , input [ placeholder "Type here", onInput Replace ] []
-        , button [ onClick (calcClick m.input) ] [ text "Hello?" ]
+        , button [ onClick (inputClick m.input) ] [ text "Exp?" ]
         ]
 
 
-calcClick : String -> Msg
-calcClick str =
-    Calculate (convertStringToList str)
-
-
-convertStringToList : String -> List Int
-convertStringToList str =
-    let
-        stringToInt s =
-            String.toInt s |> Maybe.withDefault 0
-    in
-    str
-        |> String.split ","
-        |> List.map stringToInt
+inputClick : String -> Msg
+inputClick str =
+    Send (str |> String.toFloat)

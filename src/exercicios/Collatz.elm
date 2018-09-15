@@ -66,10 +66,6 @@ update msg m =
 
 view : Model -> Html Msg
 view m =
-    let
-        value =
-            String.fromInt (fat m.value)
-    in
     div []
         [ div []
             [ Html.form [ onSubmit OnSend ]
@@ -91,15 +87,17 @@ inputElement m =
         []
 
 
+inputButton =
+    input
+        [ type_ "submit"
+        , value "Send"
+        ]
+        []
+
 values : Int -> Html Msg
 values n =
     div []
-        [ div []
-            [ text ("Fat: " ++ String.fromInt (fat n)) ]
-        -- , viewFibs n
-        , div [] [ text ("Exp: " ++ String.fromFloat (exp (toFloat n))) ]
-
-        , viewCollatz n
+        [viewCollatz n
         ]
 
 
@@ -137,12 +135,6 @@ collatzAcc n list =
         collatzAcc n1 (n1 :: list)
 
 
-viewFibs : Int -> Html Msg
-viewFibs n =
-    div []
-        [ text "Sequencia Fibonacci"
-        , viewList (fibList n)
-        ]
 
 
 viewList : List Int -> Html Msg
@@ -157,72 +149,3 @@ viewList lst =
     ol [] children
 
 
-inputButton =
-    input
-        [ type_ "submit"
-        , value "Send"
-        ]
-        []
-
-
-fat : Int -> Int
-fat n =
-    let
-        fat2 m acc =
-            if m == 0 then
-                acc
-
-            else
-                fat2 (m - 1) (acc * m)
-    in
-    fat2 n 1
-
-
-fibList : Int -> List Int
-fibList n =
-    List.reverse (fibAcc n [ 1, 1 ])
-
-
-fibNext lst =
-    case lst of
-        [] ->
-            [ 1 ]
-
-        [ x ] ->
-            [ 1, x ]
-
-        x :: y :: tail ->
-            (x + y) :: lst
-
-
-fibAcc n acc =
-    if n == 0 then
-        acc
-
-    else
-        fibAcc (n - 1) (fibNext acc)
-
-
-exp : Float -> Float
-exp x =
-    let
-        term : Int -> Float
-        term n =
-            x ^ toFloat n / toFloat (fat n)
-    in
-    List.sum <|
-        List.map term (List.range 0 30)
-
-
-
--- DANGER: GARBAGE ZONE
--- fib : Int -> Int
--- fib m =
---     let
---         fibAcc n x y =
---             if n == 0 then
---                 y
---             else
---                 fibAcc (n - 1) y (x + y)
---     in
---     fibAcc m 0 1

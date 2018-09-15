@@ -32,15 +32,15 @@ init =
 
 
 type Msg
-    = Concat String
+    = Send (Maybe Int)
     | Replace String
 
 
 update : Msg -> Model -> Model
 update msg m =
     case msg of
-        Concat st ->
-            { m | out = "Hello " ++ st }
+        Send number ->
+            { m | out = inputFib number }
 
         Replace st ->
             { m | input = st }
@@ -55,5 +55,25 @@ view m =
     div []
         [ h1 [] [ text m.out ]
         , input [ placeholder "Type here", onInput Replace ] []
-        , button [ onClick (Concat m.input) ] [ text "Hello?" ]
+        , button [ onClick (inputClick m.input) ] [ text "Fibonacci?" ]
         ]
+
+
+fib : Int -> Int
+fib n =
+    if n <= 2 then
+        1
+    else
+        fib (n - 1) + fib (n - 2)
+
+inputFib : Maybe Int -> String
+inputFib n =
+    Maybe.withDefault 0 n
+        |> fib
+        |> String.fromInt
+
+
+inputClick : String -> Msg
+inputClick str =
+    Send (str |> String.toInt)
+

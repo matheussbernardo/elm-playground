@@ -19,12 +19,12 @@ main =
 
 
 type alias Model =
-    { input : String, out : String }
+    String
 
 
 init : Model
 init =
-    { input = "", out = "" }
+    "Hello World!"
 
 
 
@@ -32,18 +32,18 @@ init =
 
 
 type Msg
-    = Send (Maybe Int)
+    = Concat String
     | Replace String
 
 
 update : Msg -> Model -> Model
 update msg m =
     case msg of
-        Send number ->
-            { m | out = inputFib number }
+        Concat st ->
+            st
 
         Replace st ->
-            { m | input = st }
+            st
 
 
 
@@ -53,27 +53,5 @@ update msg m =
 view : Model -> Html Msg
 view m =
     div []
-        [ h1 [] [ text m.out ]
-        , input [ placeholder "Type here", onInput Replace ] []
-        , button [ onClick (inputClick m.input) ] [ text "Hello?" ]
+        [ h1 [] [ text m ]
         ]
-
-
-fib : Int -> Int
-fib n =
-    if n <= 2 then
-        1
-    else
-        fib (n - 1) + fib (n - 2)
-
-inputFib : Maybe Int -> String
-inputFib n =
-    Maybe.withDefault 0 n
-        |> fib
-        |> String.fromInt
-
-
-inputClick : String -> Msg
-inputClick str =
-    Send (str |> String.toInt)
-

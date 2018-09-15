@@ -4,7 +4,6 @@ import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import Round exposing (round)
 
 
 main =
@@ -33,7 +32,7 @@ init =
 
 
 type Msg
-    = Concat (Maybe Float)
+    = Concat (Maybe Int)
     | Replace String
 
 
@@ -41,7 +40,7 @@ update : Msg -> Model -> Model
 update msg m =
     case msg of
         Concat number ->
-            { m | out = inputSqrt number }
+            { m | out = inputFat number }
 
         Replace st ->
             { m | input = st }
@@ -56,30 +55,27 @@ view m =
     div []
         [ h1 [] [ text m.out ]
         , input [ placeholder "Type here", onInput Replace ] []
-        , button [ onClick (inputClick m.input) ] [ text "Hello?" ]
+        , button [ onClick (inputClick m.input) ] [ text "Factorial?" ]
         ]
 
 
-sqrtAcc : Float -> Float -> Float -> Float
-sqrtAcc x r acc =
-    if round 3 acc == round 3 r then
-        r
+fat : Int -> Int
+fat n =
+    if n <= 1 then
+        1
+
     else
-        sqrtAcc x (((r ^ 2) + x)/ (2 * r)) r
+        n * fat (n - 1)
 
 
-sqrt : Float -> Float
-sqrt x =
-    sqrtAcc x (x / 2) 0
-
-
-inputSqrt : Maybe Float -> String
-inputSqrt n =
+inputFat : Maybe Int -> String
+inputFat n =
     Maybe.withDefault 0 n
-        |> sqrt
-        |> round 3
+        |> fat
+        |> String.fromInt
 
 
 inputClick : String -> Msg
 inputClick str =
-    Concat (str |> String.toFloat)
+    Concat (str |> String.toInt)
+

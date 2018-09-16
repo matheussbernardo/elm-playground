@@ -63,15 +63,18 @@ fibList : Int -> List Int -> List Int
 fibList n acc =
     if n == 0 then
         acc
-    else
-        fibList (n-1) (fibNext acc)
 
-    -- How fibList works     
-    -- fibList 4-1  fibNext []    [1]
-    -- fibList 3-1  fibNext [1] > [1,1] 
-    -- fibList 2-1  fibNext [1,1] > [2,1,1]
-    -- fibList 1-1  fibNext [2,1,1] > [3,2,1,1]
-    -- fibList 0 acc > [3,2,1,1]
+    else
+        fibList (n - 1) (fibNext acc)
+
+
+
+-- How fibList works
+-- fibList 4-1  fibNext []    [1]
+-- fibList 3-1  fibNext [1] > [1,1]
+-- fibList 2-1  fibNext [1,1] > [2,1,1]
+-- fibList 1-1  fibNext [2,1,1] > [3,2,1,1]
+-- fibList 0 acc > [3,2,1,1]
 
 
 fibNext lst =
@@ -84,18 +87,22 @@ fibNext lst =
 
         x :: y :: tail ->
             (x + y) :: lst
-            
+
 
 fib : Int -> Int
 fib n =
     if n <= 2 then
         1
+
     else
         fib (n - 1) + fib (n - 2)
 
+
 inputFib : Maybe Int -> List Int
 inputFib n =
-    let v = Maybe.withDefault 0 n
+    let
+        v =
+            Maybe.withDefault 0 n
     in
     fibList v [] |> List.reverse
 
@@ -115,4 +122,3 @@ viewList lst =
 inputClick : String -> Msg
 inputClick str =
     Send (str |> String.toInt)
-

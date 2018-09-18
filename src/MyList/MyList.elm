@@ -1,10 +1,13 @@
-module MyList exposing (MyList(..), add, append, filter, isEmpty, length, map, member, reverse)
+module MyList exposing (MyList(..), add, append, filter, isEmpty, length, map, member, reverse, repeat, singleton)
 
 
 type MyList a
     = Cons a (MyList a)
     | Nil
 
+singleton : a -> MyList a
+singleton n =
+    Cons n Nil
 
 add : a -> MyList a -> MyList a
 add n list =
@@ -110,3 +113,15 @@ member item list =
             filter (\x -> x == item) list |> length
     in
     lth > 0
+
+
+repeat : Int -> a -> MyList a
+repeat r value =
+    repeatAcc r value Nil
+
+repeatAcc : Int -> a -> MyList a -> MyList a
+repeatAcc r value acc =
+    if r == 0 then
+        acc
+    else
+        repeatAcc (r-1) value (add value acc)

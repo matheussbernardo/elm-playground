@@ -3,7 +3,8 @@
     "source-directories": [
         "src",
         "src/MyList",
-        "src/MyTree"
+        "src/MyTree",
+        "src/brainfuck"
     ],
     "elm-version": "0.19.0",
     "dependencies": {
